@@ -1,7 +1,7 @@
 {
-  "name": "pacakge_name",
+  "name": "@knighthacks/hackathon",
   "version": "1.0.0",
-  "description": "package_description",
+  "description": "The hackathon backend node API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

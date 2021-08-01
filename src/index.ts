@@ -1,5 +1,3 @@
-import { API as knighthacks } from './API';
-
-(function main() {
-  window.indexedDB.open('');
-})();
+export * from './controllers/category';
+export * from './controllers/event';
+export * from './API';

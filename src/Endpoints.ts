@@ -1,13 +1,15 @@
 
 const ModelBases = {
   group: '/api/groups/',
-  hacker: '/api/hacker/',
+  hacker: '/api/hackers/',
   sponsor: '/api/sponsors/',
 };
 
 export const Endpoints = {
   categories: '/api/categories/',
   allCategories: '/api/categories/get_all_categories',
+  specificCategory: (name: string, sponsor: string): string => `/api/categories?name=${name}&sponsor=${sponsor}`,
+
   clubGetEvents: '/api/club/get_events',
   clubRefreshEvents: '/api/club/refresh_events',
   emailVerify: (identifier: string): string => `/api/email/verify/${identifier}/`,
@@ -22,7 +24,7 @@ export const Endpoints = {
   allGroups: ModelBases.group + 'get_all_groups/',
 
   createHacker: ModelBases.hacker,
-  allHackers: ModelBases.group + 'get_all_hackers/',
+  allHackers: ModelBases.hacker + 'get_all_hackers/',
   specificHacker: (username: string): string => ModelBases.group + `${username}/`,
   acceptHacker: (username: string): string => ModelBases.group + `${username}/accept/`,
   hackerSettings: (username: string): string => ModelBases.group + `${username}/settings/`,

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { Endpoints } from '../Endpoints';
-import { Category } from '../models/category';
+import { Category, CategoryPayload } from '../models/category';
 
 export class CategoryManager {
   /**
@@ -19,6 +19,10 @@ export class CategoryManager {
       .then(response => response.data);
   }
 
+  /**
+   * Fetches all of the categories.
+   * @returns An array of category objects.
+   */
   async all(): Promise<Category[]> {
     let categories: Category[] = [];
     try {
@@ -33,9 +37,30 @@ export class CategoryManager {
     return categories;
   }
       
-  async create(category: Category): Promise<void> {
-    await axios.get(Endpoints.categories, { data: category })
+  /**
+   * Creates a new category.
+   * @param category The category to create.
+   */
+  async create(category: CategoryPayload): Promise<void> {
+    await axios.post(Endpoints.categories, category)
       .then(response => response.data);
+  }
+
+  /**
+   * Updates a given category.
+   * @param toUpdate The data used for updating the category.
+   * @param category The data to update with.
+   */
+  async update(toUpdate: Omit<CategoryPayload, 'description'>, category: CategoryPayload): Promise<void> {
+    await axios.put(Endpoints.specificCategory(toUpdate.name, toUpdate.sponsor), category);
+  }
+
+  /**
+   * Deletes a given category.
+   * @param toDelete The data use for deleting the category.
+   */
+  async delete(toDelete: Omit<CategoryPayload, 'description'>): Promise<void> {
+    await axios.delete(Endpoints.specificCategory(toDelete.name, toDelete.sponsor));
   }
 }
 

@@ -7,6 +7,7 @@ const ModelBases = {
 
 export const Endpoints = {
   categories: '/api/categories/',
+  allCategories: '/api/categories/get_all_categories',
   clubGetEvents: '/api/club/get_events',
   clubRefreshEvents: '/api/club/refresh_events',
   emailVerify: (identifier: string): string => `/api/email/verify/${identifier}/`,

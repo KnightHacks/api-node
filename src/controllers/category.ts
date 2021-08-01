@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Endpoints } from '../Endpoints';
 import { Category } from '../models/category';
 
@@ -17,6 +17,20 @@ export class CategoryManager {
   
     return await axios.get<Category[]>(Endpoints.categories, { data })
       .then(response => response.data);
+  }
+
+  async all(): Promise<Category[]> {
+    let categories: Category[] = [];
+    try {
+      categories = await axios.get<{ categories: Category[] }>(Endpoints.allCategories)
+        .then(response => response.data.categories);
+    } catch (error: unknown) {
+      if ((error as AxiosError).code === '404') {
+        return [];
+      }
+    }
+
+    return categories;
   }
       
   async create(category: Category): Promise<void> {

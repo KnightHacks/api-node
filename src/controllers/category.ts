@@ -1,8 +1,13 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
+import { API } from '../API';
 import { Endpoints } from '../Endpoints';
 import { Category, CategoryPayload } from '../models/category';
+import { emptyCollectionHandler } from '../util/api';
 
 export class CategoryManager {
+
+  constructor(readonly api: API) {}
+
   /**
    * Looks up a category given the name and sponsor.
    * @param name The name to query.
@@ -16,7 +21,8 @@ export class CategoryManager {
     };
   
     return await axios.get<Category[]>(Endpoints.categories, { data })
-      .then(response => response.data);
+      .then(response => response.data)
+      .catch((error) => emptyCollectionHandler<Category>(error));
   }
 
   /**
@@ -24,17 +30,9 @@ export class CategoryManager {
    * @returns An array of category objects.
    */
   async all(): Promise<Category[]> {
-    let categories: Category[] = [];
-    try {
-      categories = await axios.get<{ categories: Category[] }>(Endpoints.allCategories)
-        .then(response => response.data.categories);
-    } catch (error: unknown) {
-      if ((error as AxiosError).code === '404') {
-        return [];
-      }
-    }
-
-    return categories;
+    return await axios.get<{ categories: Category[] }>(Endpoints.allCategories)
+      .then(response => response.data.categories)
+      .catch((error) => emptyCollectionHandler<Category>(error));
   }
       
   /**
@@ -60,7 +58,11 @@ export class CategoryManager {
    * @param toDelete The data use for deleting the category.
    */
   async delete(toDelete: Omit<CategoryPayload, 'description'>): Promise<void> {
-    await axios.delete(Endpoints.specificCategory(toDelete.name, toDelete.sponsor));
+    await axios.delete(Endpoints.specificCategory(toDelete.name, toDelete.sponsor), {
+      headers: {
+        Cookie: this.api.token
+      }
+    });
   }
 }
 

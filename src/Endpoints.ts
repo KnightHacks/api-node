@@ -6,6 +6,9 @@ const ModelBases = {
 };
 
 export const Endpoints = {
+
+  login: '/api/auth/login',
+
   categories: '/api/categories/',
   allCategories: '/api/categories/get_all_categories',
   specificCategory: (name: string, sponsor: string): string => `/api/categories?name=${name}&sponsor=${sponsor}`,

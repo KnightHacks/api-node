@@ -56,5 +56,8 @@
     "dotenv": "^10.0.0",
     "humps": "^2.0.1",
     "snakecase-keys": "^4.0.2"
-  }
+  },
+  "files": [
+    "/dist"
+  ]
 }

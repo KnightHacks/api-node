@@ -29,7 +29,7 @@ export class CategoryManager {
    * Fetches all of the categories.
    * @returns An array of category objects.
    */
-  async all(): Promise<Category[]> {
+  async fetchAll(): Promise<Category[]> {
     return await axios
       .get<{ categories: Category[] }>(Endpoints.allCategories)
       .then((response) => response.data.categories)

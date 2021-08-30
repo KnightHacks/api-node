@@ -29,11 +29,17 @@ export interface Hacker extends Omit<HackerPayload, 'gradYear' | 'password'> {
   tracks: string[];
 }
 
-export interface Sponsor {
+export interface APISponsor {
   email: string;
   logo: string;
   password?: string;
+  sponsor_name: string;
+  subscription_tier: string;
+  username: string;
+}
+
+export interface Sponsor
+  extends Omit<APISponsor, 'sponsor_name' | 'subscription_tier'> {
   sponsorName: string;
   subscriptionTier: string;
-  username: string;
 }

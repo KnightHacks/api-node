@@ -1,6 +1,6 @@
 {
   "name": "@knighthacks/hackathon",
-  "version": "1.0.0",
+  "version": "0.1.0-dev",
   "description": "The hackathon backend node API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suneettipirneni/node-typescript-template.git"
+    "url": "git+https://github.com/KnightHacks/knighthacks-api-node-2021.git"
   },
   "author": "Suneet Tipirneni",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/suneettipirneni/node-typescript-template/issues"
+    "url": "https://github.com/KnightHacks/knighthacks-api-node-2021/issues"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -29,7 +29,7 @@
       "eslint --fix"
     ]
   },
-  "homepage": "https://github.com/suneettipirneni/node-typescript-template#readme",
+  "homepage": "https://github.com/KnightHacks/knighthacks-api-node-2021#readme",
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",

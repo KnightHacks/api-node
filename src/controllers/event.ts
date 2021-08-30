@@ -19,7 +19,6 @@ function transformEvent(event: APIEvent): Event {
 
 export class EventManager {
   async fetchAll(): Promise<Event[]> {
-    console.log(`https://api.knighthacks.org${Endpoints.getAllEvents}`);
     const apiEvents = await axios
       .get<{ events: APIEvent[] }>(Endpoints.getAllEvents)
       .then((response) => response.data.events)

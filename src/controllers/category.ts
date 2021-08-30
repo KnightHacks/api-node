@@ -5,7 +5,6 @@ import { Category, CategoryPayload } from '../models/category';
 import { emptyCollectionHandler } from '../util/api';
 
 export class CategoryManager {
-
   constructor(readonly api: API) {}
 
   /**
@@ -19,9 +18,10 @@ export class CategoryManager {
       name,
       sponsor,
     };
-  
-    return await axios.get<Category[]>(Endpoints.categories, { data })
-      .then(response => response.data)
+
+    return await axios
+      .get<Category[]>(Endpoints.categories, { data })
+      .then((response) => response.data)
       .catch((error) => emptyCollectionHandler<Category>(error));
   }
 
@@ -30,18 +30,20 @@ export class CategoryManager {
    * @returns An array of category objects.
    */
   async all(): Promise<Category[]> {
-    return await axios.get<{ categories: Category[] }>(Endpoints.allCategories)
-      .then(response => response.data.categories)
+    return await axios
+      .get<{ categories: Category[] }>(Endpoints.allCategories)
+      .then((response) => response.data.categories)
       .catch((error) => emptyCollectionHandler<Category>(error));
   }
-      
+
   /**
    * Creates a new category.
    * @param category The category to create.
    */
   async create(category: CategoryPayload): Promise<void> {
-    await axios.post(Endpoints.categories, category)
-      .then(response => response.data);
+    await axios
+      .post(Endpoints.categories, category)
+      .then((response) => response.data);
   }
 
   /**
@@ -49,8 +51,14 @@ export class CategoryManager {
    * @param toUpdate The data used for updating the category.
    * @param category The data to update with.
    */
-  async update(toUpdate: Omit<CategoryPayload, 'description'>, category: CategoryPayload): Promise<void> {
-    await axios.put(Endpoints.specificCategory(toUpdate.name, toUpdate.sponsor), category);
+  async update(
+    toUpdate: Omit<CategoryPayload, 'description'>,
+    category: CategoryPayload
+  ): Promise<void> {
+    await axios.put(
+      Endpoints.specificCategory(toUpdate.name, toUpdate.sponsor),
+      category
+    );
   }
 
   /**
@@ -58,11 +66,13 @@ export class CategoryManager {
    * @param toDelete The data use for deleting the category.
    */
   async delete(toDelete: Omit<CategoryPayload, 'description'>): Promise<void> {
-    await axios.delete(Endpoints.specificCategory(toDelete.name, toDelete.sponsor), {
-      headers: {
-        Cookie: this.api.token
+    await axios.delete(
+      Endpoints.specificCategory(toDelete.name, toDelete.sponsor),
+      {
+        headers: {
+          Cookie: this.api.token,
+        },
       }
-    });
+    );
   }
 }
-

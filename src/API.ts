@@ -8,20 +8,22 @@ import { HackerManager } from './controllers/hacker';
 import { SponsorManager } from './controllers/sponsor';
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000';
-axios.interceptors.response.use((response) => {
-  if (!response.data) {
+axios.interceptors.response.use(
+  (response) => {
+    if (!response.data) {
+      return response;
+    }
+
+    response.data = camelcaseKeys(response.data, { deep: true });
     return response;
+  },
+  (error: AxiosError) => {
+    console.error(error.response?.data);
+    throw error;
   }
+);
 
-  response.data = camelcaseKeys(response.data, { deep: true });
-  return response;
-}, 
-(error: AxiosError) => {
-  console.error(error.response?.data);
-  throw error;
-});
-
-axios.interceptors.request.use(request => {
+axios.interceptors.request.use((request) => {
   if (!request.data) {
     return request;
   }
@@ -29,7 +31,6 @@ axios.interceptors.request.use(request => {
   request.data = snakecaseKeys(request.data, { deep: true });
   return request;
 });
-
 
 export class API {
   public readonly categories = new CategoryManager(this);

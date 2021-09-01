@@ -12,15 +12,21 @@ function transformClubEvent(event: APIClubEvent): ClubEvent {
   return renamedKeys;
 }
 
+export type RelativeDate = 'Today' | 'NextWeek' | 'NextMonth' | 'NextYear';
+
+export interface ClubEventOptions {
+  count: number;
+  confirmed: boolean;
+  rdate: RelativeDate;
+}
+
 export class ClubManager {
-  async getEvents(): Promise<ClubEvent[]> {
-    console.log(Endpoints.clubEvents);
+  async getEvents(options: ClubEventOptions): Promise<ClubEvent[]> {
     const clubEvents = await axios
-      .get<{ events: APIClubEvent[] }>(Endpoints.clubEvents)
-      .then((response) => {
-        console.log(response.status);
-        return response.data.events;
+      .get<{ events: APIClubEvent[] }>(Endpoints.clubEvents, {
+        params: options,
       })
+      .then((response) => response.data.events)
       .catch((err: AxiosError) => {
         console.error(err.message);
         return [];

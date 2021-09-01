@@ -3,11 +3,12 @@ import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 import { AuthenticationManager } from './controllers/auth';
 import { CategoryManager } from './controllers/category';
+import { ClubManager } from './controllers/club';
 import { EventManager } from './controllers/event';
 import { HackerManager } from './controllers/hacker';
 import { SponsorManager } from './controllers/sponsor';
 
-axios.defaults.baseURL = 'http://127.0.0.1:5000';
+axios.defaults.baseURL = 'https://api.knighthacks.org';
 axios.interceptors.response.use(
   (response) => {
     if (!response.data) {
@@ -37,6 +38,7 @@ export class API {
   public readonly events = new EventManager();
   public readonly sponsors = new SponsorManager();
   public readonly hackers = new HackerManager();
+  public readonly club = new ClubManager();
 
   public token: string | undefined;
 

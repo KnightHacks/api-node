@@ -1,12 +1,18 @@
 import { APISponsor, Sponsor } from './user';
 
-export interface ClubEvent {
-  date: Date;
+export interface APIClubEvent {
   description: string;
+  end: string;
   location: string;
   name: string;
   presenter: string;
+  start: string;
   tags: string[];
+}
+
+export interface ClubEvent extends Omit<APIClubEvent, 'start' | 'end'> {
+  start: Date;
+  end: Date;
 }
 
 export interface APIEvent {

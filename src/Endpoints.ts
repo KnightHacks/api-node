@@ -2,6 +2,7 @@ const ModelBases = {
   group: '/api/groups/',
   hacker: '/api/hackers/',
   sponsor: '/api/sponsors/',
+  club: '/api/club/',
 };
 
 export const Endpoints = {
@@ -46,4 +47,6 @@ export const Endpoints = {
     ModelBases.sponsor + `${sponsorName}`,
   acceptSponsor: (username: string): string =>
     ModelBases.sponsor + `${username}/accept/`,
+
+  clubEvents: `${ModelBases.club}get_events/`,
 };

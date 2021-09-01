@@ -15,9 +15,9 @@ function transformClubEvent(event: APIClubEvent): ClubEvent {
 export type RelativeDate = 'Today' | 'NextWeek' | 'NextMonth' | 'NextYear';
 
 export interface ClubEventOptions {
-  count: number;
-  confirmed: boolean;
-  rdate: RelativeDate;
+  count?: number;
+  confirmed?: boolean;
+  rdate?: RelativeDate;
 }
 
 export class ClubManager {

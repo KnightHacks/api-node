@@ -21,7 +21,7 @@ export interface ClubEventOptions {
 }
 
 export class ClubManager {
-  async getEvents(options: ClubEventOptions): Promise<ClubEvent[]> {
+  async getEvents(options?: ClubEventOptions): Promise<ClubEvent[]> {
     const clubEvents = await axios
       .get<{ events: APIClubEvent[] }>(Endpoints.clubEvents, {
         params: options,

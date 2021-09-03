@@ -7,7 +7,7 @@ import {
   transformHacker,
 } from '../models/user';
 
-import FormData from 'form-data';
+import Forms from 'form-data';
 import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
 
@@ -21,7 +21,7 @@ export class HackerManager {
    */
   async create(hacker: HackerPayload, resume?: Buffer): Promise<void> {
     const hackerPayload = JSON.stringify(transformHacker(hacker));
-    const formData = new FormData();
+    const formData = new Forms();
 
     // Add hacker entry.
     formData.append('hacker', hackerPayload, {
@@ -34,7 +34,6 @@ export class HackerManager {
 
     await this.rest.performRequest(Endpoints.createHacker, {
       method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
       body: formData as never,
     });
   }

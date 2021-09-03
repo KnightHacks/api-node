@@ -1,6 +1,16 @@
-import fetch, { RequestInit, Response } from 'node-fetch';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import nodeFetch, { RequestInit, Response } from 'node-fetch';
 import { KnightHacksAPIError } from './KnightHacksAPIError';
 import { parseResponse } from './util/api';
+
+let fetch: (url: string, info?: RequestInit) => Promise<Response>;
+// @ts-ignore
+if (typeof window != 'undefined') {
+  // @ts-ignore
+  fetch = window.fetch.bind(window);
+} else {
+  fetch = nodeFetch;
+}
 
 export interface APIErrorResponseData {
   code: number;

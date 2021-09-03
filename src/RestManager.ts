@@ -23,7 +23,7 @@ export class RestManager {
 
     // Inject cors
     if (init) {
-      init.mode = 'cors';
+      init.mode = 'no-cors';
     }
 
     return parseResponse(response);

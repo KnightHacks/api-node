@@ -24,9 +24,7 @@ export class HackerManager {
     const formData = new FormData();
 
     // Add hacker entry.
-    formData.append('hacker', hackerPayload, {
-      contentType: 'application/json',
-    });
+    formData.append('hacker', hackerPayload);
 
     if (resume) {
       formData.append('resume', resume);

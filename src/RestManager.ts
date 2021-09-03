@@ -17,8 +17,6 @@ export class RestManager {
   ): Promise<unknown> {
     const response = await fetch(this.baseURL + path, init);
 
-    console.log(response.headers);
-
     if (!response.ok) {
       await this.handleAPIError(response, path);
     }

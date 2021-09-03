@@ -7,7 +7,7 @@ import {
   transformHacker,
 } from '../models/user';
 
-import Forms from 'form-data';
+import FormData from 'isomorphic-form-data';
 import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
 
@@ -21,7 +21,7 @@ export class HackerManager {
    */
   async create(hacker: HackerPayload, resume?: Buffer): Promise<void> {
     const hackerPayload = JSON.stringify(transformHacker(hacker));
-    const formData = new Forms();
+    const formData = new FormData();
 
     // Add hacker entry.
     formData.append('hacker', hackerPayload, {

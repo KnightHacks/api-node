@@ -21,6 +21,11 @@ export class RestManager {
       await this.handleAPIError(response, path);
     }
 
+    // Inject cors
+    if (init) {
+      init.mode = 'cors';
+    }
+
     return parseResponse(response);
   }
 

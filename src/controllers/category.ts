@@ -41,10 +41,11 @@ export class CategoryManager {
    * @returns An array of category objects.
    */
   async fetchAll(): Promise<Category[]> {
-    const pendingResponse = this.rest.performRequest(Endpoints.allCategories);
-    pendingResponse.catch(emptyCollectionHandler);
+    const response = (await this.rest
+      .performRequest(Endpoints.allCategories)
+      .catch(emptyCollectionHandler)) as Category[];
 
-    return (await pendingResponse) as Category[];
+    return response;
   }
 
   /**

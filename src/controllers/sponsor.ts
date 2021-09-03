@@ -13,11 +13,9 @@ export class SponsorManager {
   }
 
   async fetchAll(): Promise<Sponsor[]> {
-    const pendingResponse = this.rest.performRequest(Endpoints.allSponsors);
-    pendingResponse.catch(emptyCollectionHandler);
-
-    const response = (await pendingResponse) as APISponsor[];
-
+    const response = (await this.rest
+      .performRequest(Endpoints.allSponsors)
+      .catch(emptyCollectionHandler)) as APISponsor[];
     return response.map(transformSponsor);
   }
 }

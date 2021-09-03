@@ -7,10 +7,9 @@ export class EventManager {
   constructor(readonly rest: RestManager) {}
 
   async fetchAll(): Promise<Event[]> {
-    const pendingResponse = this.rest.performRequest(Endpoints.getAllEvents);
-    pendingResponse.catch(emptyCollectionHandler);
-
-    const response = (await pendingResponse) as { events: APIEvent[] };
+    const response = (await this.rest
+      .performRequest(Endpoints.getAllEvents)
+      .catch(emptyCollectionHandler)) as { events: APIEvent[] };
     return response.events.map(transformAPIEvent);
   }
 }

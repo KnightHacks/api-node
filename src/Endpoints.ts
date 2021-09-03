@@ -47,5 +47,5 @@ export const Endpoints = {
   acceptSponsor: (username: string): string =>
     ModelBases.sponsor + `${username}/accept/`,
 
-  clubEvents: `${ModelBases.club}get_events/`,
+  clubEvents: `${ModelBases.club}get_events`,
 };

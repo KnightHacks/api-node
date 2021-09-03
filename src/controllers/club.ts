@@ -1,3 +1,4 @@
+import qs from 'qs';
 import { Endpoints } from '../Endpoints';
 import { APIClubEvent, ClubEvent, transformClubEvent } from '../models/event';
 import { RestManager } from '../RestManager';
@@ -15,18 +16,13 @@ export class ClubManager {
   constructor(readonly rest: RestManager) {}
 
   async getEvents(options?: ClubEventOptions): Promise<ClubEvent[]> {
-    const url = new URL(Endpoints.clubEvents);
+    const params = qs.stringify(options);
+    const path = `${Endpoints.clubEvents}?${params}`;
 
-    if (options) {
-      Object.entries(options).forEach((option) =>
-        url.searchParams.append(option[0], option[1])
-      );
-    }
+    const response = (await this.rest
+      .performRequest(path)
+      .catch(emptyCollectionHandler)) as { events: APIClubEvent[] };
 
-    const pendingResponse = this.rest.performRequest(URL.toString());
-    pendingResponse.catch(emptyCollectionHandler);
-
-    const response = (await pendingResponse) as { events: APIClubEvent[] };
     return response.events.map(transformClubEvent);
   }
 }

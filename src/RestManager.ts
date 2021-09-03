@@ -32,8 +32,6 @@ export class RestManager {
     }
 
     const error = new KnightHacksAPIError(json, response.url, path);
-
-    console.error(error);
     throw error;
   }
 }

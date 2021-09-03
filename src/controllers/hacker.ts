@@ -7,7 +7,7 @@ import {
   transformHacker,
 } from '../models/user';
 
-import FormData from 'isomorphic-form-data';
+import FormData from 'form-data';
 import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
 

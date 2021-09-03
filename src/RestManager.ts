@@ -1,6 +1,13 @@
-import nodeFetch, { RequestInit, Response } from 'node-fetch';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import fetch, { RequestInit, Response } from 'node-fetch';
 import { KnightHacksAPIError } from './KnightHacksAPIError';
 import { parseResponse } from './util/api';
+
+// @ts-ignore
+if (!globalThis.fetch) {
+  // @ts-ignore
+  globalThis.fetch = fetch;
+}
 
 export interface APIErrorResponseData {
   code: number;
@@ -15,7 +22,7 @@ export class RestManager {
     path: string,
     init?: RequestInit
   ): Promise<unknown> {
-    const response = await nodeFetch(this.baseURL + path, init);
+    const response = await fetch(this.baseURL + path, init);
 
     if (!response.ok) {
       await this.handleAPIError(response, path);

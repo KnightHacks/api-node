@@ -1,9 +1,21 @@
-import { AxiosError } from 'axios';
+import { Response } from 'node-fetch';
+import { KnightHacksAPIError } from '../KnightHacksAPIError';
 
-export function emptyCollectionHandler<T>(error: unknown): T[] {
-  if ((error as AxiosError).code === '404') {
-    return [];
+export function emptyCollectionHandler(
+  e: KnightHacksAPIError
+): Promise<unknown> {
+  if (e.code === 404) {
+    return [] as unknown as Promise<unknown>;
   }
 
-  throw error;
+  console.log('uh oh');
+  throw e;
+}
+
+export function parseResponse(response: Response): Promise<unknown> {
+  if (response.headers.get('Content-Type')?.startsWith('application/json')) {
+    return response.json();
+  }
+
+  return response.buffer();
 }

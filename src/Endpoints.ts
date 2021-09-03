@@ -1,27 +1,26 @@
 const ModelBases = {
-  group: '/api/groups/',
-  hacker: '/api/hackers/',
-  sponsor: '/api/sponsors/',
-  club: '/api/club/',
+  group: '/groups/',
+  hacker: '/hackers/',
+  sponsor: '/sponsors/',
+  club: '/club/',
 };
 
 export const Endpoints = {
-  login: '/api/auth/login',
+  login: '/auth/login',
 
-  categories: '/api/categories/',
-  allCategories: '/api/categories/get_all_categories',
+  categories: '/categories/',
+  allCategories: '/categories/get_all_categories',
   specificCategory: (name: string, sponsor: string): string =>
     `/api/categories?name=${name}&sponsor=${sponsor}`,
 
-  clubGetEvents: '/api/club/get_events',
-  clubRefreshEvents: '/api/club/refresh_events',
-  emailVerify: (identifier: string): string =>
-    `/api/email/verify/${identifier}/`,
+  clubGetEvents: '/club/get_events',
+  clubRefreshEvents: '/club/refresh_events',
+  emailVerify: (identifier: string): string => `/email/verify/${identifier}/`,
 
-  createEvent: '/api/events/create_event',
-  getAllEvents: '/api/events/get_all_events',
+  createEvent: '/events/create_event',
+  getAllEvents: '/events/get_all_events',
   updateEvent: (eventName: string): string =>
-    `/api/events/update_event/${eventName}/`,
+    `/events/update_event/${eventName}/`,
   createGroup: ModelBases.group,
 
   specificGroup: (groupName: string): string =>

@@ -1,23 +1,23 @@
-import axios from 'axios';
 import { Endpoints } from '../Endpoints';
-import { APISponsor, Sponsor } from '../models/user';
-import humps from 'humps';
-
-export function transformSponsor(sponsor: APISponsor): Sponsor {
-  return humps.camelizeKeys(sponsor) as Sponsor;
-}
+import { APISponsor, Sponsor, transformSponsor } from '../models/user';
+import { RestManager } from '../RestManager';
+import { emptyCollectionHandler } from '../util/api';
 
 export class SponsorManager {
+  constructor(readonly rest: RestManager) {}
+
   async create(sponsor: Sponsor): Promise<void> {
-    return await axios.post(Endpoints.createSponsor, sponsor);
+    await this.rest.performRequest(Endpoints.createSponsor, {
+      body: JSON.stringify(sponsor),
+    });
   }
 
   async fetchAll(): Promise<Sponsor[]> {
-    const apiSponsors = await axios
-      .get<APISponsor[]>(Endpoints.allSponsors)
-      .then((response) => response.data)
-      .catch(() => []);
+    const pendingResponse = this.rest.performRequest(Endpoints.allSponsors);
+    pendingResponse.catch(emptyCollectionHandler);
 
-    return apiSponsors.map(transformSponsor);
+    const response = (await pendingResponse) as APISponsor[];
+
+    return response.map(transformSponsor);
   }
 }

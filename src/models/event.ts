@@ -1,4 +1,5 @@
-import { APISponsor, Sponsor } from './user';
+import humps from 'humps';
+import { APISponsor, Sponsor, transformSponsor } from './user';
 
 export interface APIClubEvent {
   description: string;
@@ -46,4 +47,25 @@ export interface Event
   eventStatus: string;
   eventType: string;
   sponsors: Sponsor[];
+}
+
+export function transformClubEvent(event: APIClubEvent): ClubEvent {
+  const renamedKeys = humps.camelizeKeys(event) as ClubEvent;
+
+  renamedKeys.start = new Date(event.start);
+  renamedKeys.end = new Date(event.end);
+
+  return renamedKeys;
+}
+
+export function transformAPIEvent(event: APIEvent): Event {
+  const renamedKeys = humps.camelizeKeys(event) as Event;
+
+  renamedKeys.dateTime = new Date(event.date_time);
+  renamedKeys.endDateTime = new Date(event.end_date_time);
+  renamedKeys.sponsors = (renamedKeys.sponsors as unknown as APISponsor[]).map(
+    transformSponsor
+  );
+
+  return renamedKeys;
 }

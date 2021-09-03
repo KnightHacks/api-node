@@ -1,29 +1,16 @@
-import axios from 'axios';
 import { Endpoints } from '../Endpoints';
-import { APIEvent, Event } from '../models/event';
-import humps from 'humps';
-import { transformSponsor } from './sponsor';
-import { APISponsor } from '../models/user';
-
-function transformEvent(event: APIEvent): Event {
-  const renamedKeys = humps.camelizeKeys(event) as Event;
-
-  renamedKeys.dateTime = new Date(event.date_time);
-  renamedKeys.endDateTime = new Date(event.end_date_time);
-  renamedKeys.sponsors = (renamedKeys.sponsors as unknown as APISponsor[]).map(
-    transformSponsor
-  );
-
-  return renamedKeys;
-}
+import { APIEvent, Event, transformAPIEvent } from '../models/event';
+import { RestManager } from '../RestManager';
+import { emptyCollectionHandler } from '../util/api';
 
 export class EventManager {
-  async fetchAll(): Promise<Event[]> {
-    const apiEvents = await axios
-      .get<{ events: APIEvent[] }>(Endpoints.getAllEvents)
-      .then((response) => response.data.events)
-      .catch(() => []);
+  constructor(readonly rest: RestManager) {}
 
-    return apiEvents.map(transformEvent);
+  async fetchAll(): Promise<Event[]> {
+    const pendingResponse = this.rest.performRequest(Endpoints.getAllEvents);
+    pendingResponse.catch(emptyCollectionHandler);
+
+    const response = (await pendingResponse) as { events: APIEvent[] };
+    return response.events.map(transformAPIEvent);
   }
 }

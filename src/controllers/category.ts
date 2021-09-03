@@ -1,11 +1,13 @@
-import axios from 'axios';
+import { Headers } from 'node-fetch';
 import { API } from '../API';
 import { Endpoints } from '../Endpoints';
+import { KnightHacksAPIError } from '../KnightHacksAPIError';
 import { Category, CategoryPayload } from '../models/category';
+import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
 
 export class CategoryManager {
-  constructor(readonly api: API) {}
+  constructor(readonly api: API, readonly rest: RestManager) {}
 
   /**
    * Looks up a category given the name and sponsor.
@@ -13,16 +15,25 @@ export class CategoryManager {
    * @param sponsor The sponsor to query
    * @returns An array of categories.
    */
-  async lookup(name: string, sponsor: string): Promise<Category[]> {
+  async lookup(name: string, sponsor: string): Promise<Category[] | undefined> {
     const data = {
       name,
       sponsor,
     };
 
-    return await axios
-      .get<Category[]>(Endpoints.categories, { data })
-      .then((response) => response.data)
-      .catch((error) => emptyCollectionHandler<Category>(error));
+    const categories = (await this.rest
+      .performRequest(Endpoints.specificCategory(name, sponsor), {
+        body: JSON.stringify(data),
+      })
+      .catch((e: KnightHacksAPIError) => {
+        if (e.code === 404) {
+          return undefined;
+        }
+
+        throw e;
+      })) as Category[] | undefined;
+
+    return categories;
   }
 
   /**
@@ -30,10 +41,10 @@ export class CategoryManager {
    * @returns An array of category objects.
    */
   async fetchAll(): Promise<Category[]> {
-    return await axios
-      .get<{ categories: Category[] }>(Endpoints.allCategories)
-      .then((response) => response.data.categories)
-      .catch((error) => emptyCollectionHandler<Category>(error));
+    const pendingResponse = this.rest.performRequest(Endpoints.allCategories);
+    pendingResponse.catch(emptyCollectionHandler);
+
+    return (await pendingResponse) as Category[];
   }
 
   /**
@@ -41,9 +52,9 @@ export class CategoryManager {
    * @param category The category to create.
    */
   async create(category: CategoryPayload): Promise<void> {
-    await axios
-      .post(Endpoints.categories, category)
-      .then((response) => response.data);
+    await this.rest.performRequest(Endpoints.categories, {
+      body: JSON.stringify(category),
+    });
   }
 
   /**
@@ -55,9 +66,11 @@ export class CategoryManager {
     toUpdate: Omit<CategoryPayload, 'description'>,
     category: CategoryPayload
   ): Promise<void> {
-    await axios.put(
+    await this.rest.performRequest(
       Endpoints.specificCategory(toUpdate.name, toUpdate.sponsor),
-      category
+      {
+        body: JSON.stringify(category),
+      }
     );
   }
 
@@ -66,12 +79,10 @@ export class CategoryManager {
    * @param toDelete The data use for deleting the category.
    */
   async delete(toDelete: Omit<CategoryPayload, 'description'>): Promise<void> {
-    await axios.delete(
+    await this.rest.performRequest(
       Endpoints.specificCategory(toDelete.name, toDelete.sponsor),
       {
-        headers: {
-          Cookie: this.api.token,
-        },
+        headers: new Headers({ Cookie: 'application/json' }),
       }
     );
   }

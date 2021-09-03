@@ -7,7 +7,7 @@ import {
   transformHacker,
 } from '../models/user';
 
-import FormData from 'isomorphic-form-data';
+import { FormData } from 'undici';
 import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
 
@@ -24,9 +24,7 @@ export class HackerManager {
     const formData = new FormData();
 
     // Add hacker entry.
-    formData.append('hacker', hackerPayload, {
-      contentType: 'application/json',
-    });
+    formData.append('hacker', hackerPayload);
 
     if (resume) {
       formData.append('resume', resume);
@@ -34,7 +32,7 @@ export class HackerManager {
 
     await this.rest.performRequest(Endpoints.createHacker, {
       method: 'POST',
-      body: formData as never,
+      body: formData,
     });
   }
 

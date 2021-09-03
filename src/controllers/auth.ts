@@ -1,5 +1,5 @@
 import { Endpoints } from '../Endpoints';
-import fetch from 'cross-fetch';
+import { fetch } from 'undici';
 
 export const AuthenticationManager = {
   async login(credentials: {

@@ -1,4 +1,3 @@
-import { Headers } from 'cross-fetch';
 import { API } from '../API';
 import { Endpoints } from '../Endpoints';
 import { KnightHacksAPIError } from '../KnightHacksAPIError';
@@ -23,6 +22,7 @@ export class CategoryManager {
 
     const categories = (await this.rest
       .performRequest(Endpoints.specificCategory(name, sponsor), {
+        method: 'GET',
         body: JSON.stringify(data),
       })
       .catch((e: KnightHacksAPIError) => {
@@ -54,6 +54,7 @@ export class CategoryManager {
    */
   async create(category: CategoryPayload): Promise<void> {
     await this.rest.performRequest(Endpoints.categories, {
+      method: 'GET',
       body: JSON.stringify(category),
     });
   }
@@ -70,6 +71,7 @@ export class CategoryManager {
     await this.rest.performRequest(
       Endpoints.specificCategory(toUpdate.name, toUpdate.sponsor),
       {
+        method: 'GET',
         body: JSON.stringify(category),
       }
     );
@@ -83,7 +85,8 @@ export class CategoryManager {
     await this.rest.performRequest(
       Endpoints.specificCategory(toDelete.name, toDelete.sponsor),
       {
-        headers: new Headers({ Cookie: 'application/json' }),
+        method: 'GET',
+        headers: { Cookie: 'application/json' },
       }
     );
   }

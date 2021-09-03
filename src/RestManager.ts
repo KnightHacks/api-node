@@ -3,15 +3,6 @@ import nodeFetch, { RequestInit, Response } from 'node-fetch';
 import { KnightHacksAPIError } from './KnightHacksAPIError';
 import { parseResponse } from './util/api';
 
-let fetch: (url: string, info?: RequestInit) => Promise<Response>;
-// @ts-ignore
-if (typeof window != 'undefined') {
-  // @ts-ignore
-  fetch = window.fetch.bind(window);
-} else {
-  fetch = nodeFetch;
-}
-
 export interface APIErrorResponseData {
   code: number;
   description: string;
@@ -25,7 +16,7 @@ export class RestManager {
     path: string,
     init?: RequestInit
   ): Promise<unknown> {
-    const response = await fetch(this.baseURL + path, init);
+    const response = await nodeFetch(this.baseURL + path, init);
 
     if (!response.ok) {
       await this.handleAPIError(response, path);

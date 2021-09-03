@@ -21,6 +21,8 @@ export class RestManager {
       await this.handleAPIError(response, path);
     }
 
+    console.log(response.url);
+
     // Inject cors
     if (init) {
       init.mode = 'no-cors';

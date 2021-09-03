@@ -36,6 +36,10 @@ export class HackerManager {
     });
   }
 
+  /**
+   * Gets all of the registered hackers.
+   * @returns All of the registered hackers.
+   */
   async fetchAll(): Promise<Hacker[]> {
     const response = (await this.rest
       .performRequest(Endpoints.allHackers)

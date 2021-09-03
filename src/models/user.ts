@@ -2,7 +2,7 @@
 import humps from 'humps';
 
 export interface APIHackerPayload {
-  beginner: boolean;
+  beginner?: boolean;
   can_share_info: boolean;
   edu_info?: {
     college?: string;
@@ -37,7 +37,7 @@ export interface HackerPayload
     | 'why_attend'
     | 'phone_number'
   > {
-  canShareInfo: boolean;
+  canShareInfo?: boolean;
   eduInfo?: {
     college?: string;
     graduationDate?: Date;

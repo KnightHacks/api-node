@@ -7,7 +7,6 @@ export function emptyCollectionHandler(
     return [] as unknown as Promise<unknown>;
   }
 
-  console.log('uh oh');
   throw e;
 }
 

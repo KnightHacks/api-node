@@ -34,7 +34,8 @@ export class HackerManager {
 
     await this.rest.performRequest(Endpoints.createHacker, {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: formData as never,
     });
   }
 

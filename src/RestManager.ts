@@ -1,4 +1,4 @@
-import fetch, { Response, RequestInit } from 'node-fetch';
+import fetch from 'cross-fetch';
 import { KnightHacksAPIError } from './KnightHacksAPIError';
 import { parseResponse } from './util/api';
 

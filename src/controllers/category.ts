@@ -1,4 +1,4 @@
-import { Headers } from 'node-fetch';
+import { Headers } from 'cross-fetch';
 import { API } from '../API';
 import { Endpoints } from '../Endpoints';
 import { KnightHacksAPIError } from '../KnightHacksAPIError';

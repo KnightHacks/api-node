@@ -1,4 +1,3 @@
-import { Response } from 'node-fetch';
 import { KnightHacksAPIError } from '../KnightHacksAPIError';
 
 export function emptyCollectionHandler(
@@ -17,5 +16,5 @@ export function parseResponse(response: Response): Promise<unknown> {
     return response.json();
   }
 
-  return response.buffer();
+  return response.arrayBuffer();
 }

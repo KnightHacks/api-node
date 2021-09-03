@@ -1,4 +1,3 @@
-import { Response } from 'undici';
 import { KnightHacksAPIError } from '../KnightHacksAPIError';
 
 export function emptyCollectionHandler(

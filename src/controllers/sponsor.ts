@@ -8,7 +8,6 @@ export class SponsorManager {
 
   async create(sponsor: Sponsor): Promise<void> {
     await this.rest.performRequest(Endpoints.createSponsor, {
-      method: 'GET',
       body: JSON.stringify(sponsor),
     });
   }

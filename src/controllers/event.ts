@@ -1,11 +1,9 @@
 import { Endpoints } from '../Endpoints';
 import { APIEvent, Event, transformAPIEvent } from '../models/event';
-import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
+import { BaseManager } from './base';
 
-export class EventManager {
-  constructor(readonly rest: RestManager) {}
-
+export class EventManager extends BaseManager {
   /**
    * Retrieves all of the hackathon events.
    * @returns A list of the hackathon events.

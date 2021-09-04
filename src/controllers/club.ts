@@ -1,8 +1,8 @@
 import qs from 'qs';
 import { Endpoints } from '../Endpoints';
 import { APIClubEvent, ClubEvent, transformClubEvent } from '../models/event';
-import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
+import { BaseManager } from './base';
 
 export type RelativeDate = 'Today' | 'NextWeek' | 'NextMonth' | 'NextYear';
 /**
@@ -25,9 +25,7 @@ export interface ClubEventOptions {
   rdate?: RelativeDate;
 }
 
-export class ClubManager {
-  constructor(readonly rest: RestManager) {}
-
+export class ClubManager extends BaseManager {
   /**
    * Fetches all of the club events.
    * @param options The options for fetching the events.

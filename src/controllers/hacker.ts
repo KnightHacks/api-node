@@ -8,12 +8,10 @@ import {
 } from '../models/user';
 
 import FormData from 'form-data';
-import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
+import { BaseManager } from './base';
 
-export class HackerManager {
-  constructor(readonly rest: RestManager) {}
-
+export class HackerManager extends BaseManager {
   /**
    * Create a new hacker.
    * @param hacker The hacker data to upload.

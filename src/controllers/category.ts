@@ -5,9 +5,12 @@ import { KnightHacksAPIError } from '../KnightHacksAPIError';
 import { Category, CategoryPayload } from '../models/category';
 import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
+import { BaseManager } from './base';
 
-export class CategoryManager {
-  constructor(readonly api: API, readonly rest: RestManager) {}
+export class CategoryManager extends BaseManager {
+  constructor(readonly api: API, rest: RestManager) {
+    super(rest);
+  }
 
   /**
    * Looks up a category given the name and sponsor.

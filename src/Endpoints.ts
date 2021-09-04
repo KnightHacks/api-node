@@ -1,4 +1,4 @@
-const ModelBases = {
+export const ModelBases = {
   group: '/groups/',
   hacker: '/hackers/',
   sponsor: '/sponsors/',

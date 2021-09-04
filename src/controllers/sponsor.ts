@@ -1,11 +1,9 @@
 import { Endpoints } from '../Endpoints';
 import { APISponsor, Sponsor, transformSponsor } from '../models/user';
-import { RestManager } from '../RestManager';
 import { emptyCollectionHandler } from '../util/api';
+import { BaseManager } from './base';
 
-export class SponsorManager {
-  constructor(readonly rest: RestManager) {}
-
+export class SponsorManager extends BaseManager {
   async create(sponsor: Sponsor): Promise<void> {
     await this.rest.performRequest(Endpoints.createSponsor, {
       body: JSON.stringify(sponsor),

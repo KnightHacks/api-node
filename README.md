@@ -20,8 +20,18 @@ const clubEvents: ClubEvent[] = await api.club.getEvents();
 console.log(clubEvents[0].start.toLocaleString());
 ```
 
-### Example: Get Hackers
+### Example: Manipulate Hacker Data
 
 ```ts
-const sponsors: Hacker[] = await api.hackers.fetchAll();
+const hacker = await api.hackers.get('Bob');
+
+await hacker.setLastName('Joe');
+await hacker.setSharingInfo(true);
+
+// Or use a bulk edit...
+
+await hacker.edit({
+  lastName: 'Joe',
+  canShareInfo: true,
+});
 ```

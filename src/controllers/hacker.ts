@@ -119,14 +119,21 @@ export class Hacker implements Partial<HackerData> {
       .catch(entityNotFoundHandler)) as Buffer;
   }
 
+  /**
+   * Performs a bulk edit of this event.
+   * @param data The data to edit.
+   * @param refetch Whether or not to refetch the updated resource.
+   */
   async edit(data: Partial<HackerData>, refetch = true): Promise<void> {
     if (!this.username) {
       throw new Error('Invalid User');
     }
 
+    const transformedData = transformHacker(data);
+
     await this.rest.performRequest(Endpoints.specificHacker(this.username), {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: JSON.stringify(transformedData),
       headers: {
         'Content-Type': 'application/json',
       },

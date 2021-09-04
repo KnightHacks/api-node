@@ -73,7 +73,9 @@ export interface Sponsor
   subscriptionTier: string;
 }
 
-export function transformHacker(payload: HackerData): APIHackerPayload {
+export function transformHacker(
+  payload: Partial<HackerData>
+): APIHackerPayload {
   const transformedKeys = humps.decamelizeKeys(payload) as APIHackerPayload;
   return {
     ...transformedKeys,

@@ -10,6 +10,14 @@ export function emptyCollectionHandler(
   throw e;
 }
 
+export function entityNotFoundHandler(e: KnightHacksAPIError): undefined {
+  if (e.code === 404) {
+    return undefined;
+  }
+
+  throw e;
+}
+
 export function parseResponse(response: Response): Promise<unknown> {
   if (response.headers.get('Content-Type')?.startsWith('application/json')) {
     return response.json();

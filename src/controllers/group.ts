@@ -18,18 +18,15 @@ export class Group implements GroupData {
 
   /**
    * Adds a new member.
-   * @param memberName The member to add.
+   * @param username The member to add.
    */
-  async addMember(memberName: string): Promise<void> {
-    await this.rest.performRequest(
-      Endpoints.groupMember(this.name, memberName),
-      {
-        method: 'put',
-      }
-    );
+  async addMember(username: string): Promise<void> {
+    await this.rest.performRequest(Endpoints.groupMember(this.name, username), {
+      method: 'put',
+    });
 
     // Add members cache to this instance.
-    this.members.push(memberName);
+    this.members.push(username);
   }
 }
 

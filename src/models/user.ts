@@ -25,7 +25,7 @@ export interface APIHackerPayload {
   why_attend?: string;
 }
 
-export interface HackerPayload
+export interface HackerData
   extends Omit<
     APIHackerPayload,
     | 'can_share_info'
@@ -58,20 +58,6 @@ function toUnixTime(time?: number) {
 
 export type APIHacker = Omit<APIHackerPayload, 'password'>;
 
-export interface Hacker extends Omit<HackerPayload, 'password'> {
-  emailTokenHash: number[];
-  emailVerification: boolean;
-  hackerProfile: {
-    gradYear: number;
-    resume: string;
-    schoolName: string;
-    socials: string[];
-  };
-  isaccepted: boolean;
-  roles: number;
-  tracks: string[];
-}
-
 export interface APISponsor {
   email: string;
   logo: string;
@@ -87,7 +73,7 @@ export interface Sponsor
   subscriptionTier: string;
 }
 
-export function transformHacker(payload: HackerPayload): APIHackerPayload {
+export function transformHacker(payload: HackerData): APIHackerPayload {
   const transformedKeys = humps.decamelizeKeys(payload) as APIHackerPayload;
   return {
     ...transformedKeys,
@@ -98,8 +84,8 @@ export function transformHacker(payload: HackerPayload): APIHackerPayload {
   };
 }
 
-export function transformAPIHacker(data: APIHacker): Hacker {
-  const tranformedKeys = humps.camelizeKeys(data) as Hacker;
+export function transformAPIHacker(data: APIHacker): HackerData {
+  const tranformedKeys = humps.camelizeKeys(data) as HackerData;
   if (data.edu_info?.graduation_date) {
     tranformedKeys.eduInfo!.graduationDate = new Date(
       data.edu_info.graduation_date * 1000

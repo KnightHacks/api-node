@@ -32,7 +32,7 @@ export const Endpoints = {
   createHacker: ModelBases.hacker,
   allHackers: ModelBases.hacker + 'get_all_hackers/',
   specificHacker: (username: string): string =>
-    ModelBases.group + `${username}/`,
+    ModelBases.hacker + `${username}/`,
   acceptHacker: (username: string): string =>
     ModelBases.group + `${username}/accept/`,
   hackerSettings: (username: string): string =>

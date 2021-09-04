@@ -34,9 +34,11 @@ export const Endpoints = {
   specificHacker: (username: string): string =>
     ModelBases.hacker + `${username}/`,
   acceptHacker: (username: string): string =>
-    ModelBases.group + `${username}/accept/`,
+    ModelBases.hacker + `${username}/accept/`,
   hackerSettings: (username: string): string =>
-    ModelBases.group + `${username}/settings/`,
+    ModelBases.hacker + `${username}/settings/`,
+  hackerResume: (username: string): string =>
+    ModelBases.hacker + `${username}/resume/`,
 
   createSponsor: ModelBases.sponsor,
   deleteSponsor: (sponsorName: string): string =>

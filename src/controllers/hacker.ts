@@ -38,7 +38,7 @@ export class Hacker implements Partial<HackerData> {
         linkedin: string;
       }
     | undefined;
-  username?: string;
+  username!: string;
 
   constructor(readonly rest: RestManager, data: HackerData) {
     this.patch(data);
@@ -57,6 +57,11 @@ export class Hacker implements Partial<HackerData> {
     this.ethnicity = data.ethnicity;
     this.pronouns = data.pronouns;
     this.socials = data.socials;
+
+    if (!data.username) {
+      throw new Error('Hacker data is missing username');
+    }
+
     this.username = data.username;
   }
 
@@ -108,16 +113,23 @@ export class Hacker implements Partial<HackerData> {
     this.socials = socials;
   }
 
+  async getResume(): Promise<Buffer | undefined> {
+    return (await this.rest
+      .performRequest(Endpoints.hackerResume(this.username))
+      .catch(entityNotFoundHandler)) as Buffer;
+  }
+
   async edit(data: Partial<HackerData>, refetch = true): Promise<void> {
     if (!this.username) {
       throw new Error('Invalid User');
     }
 
-    console.log({ data });
-
     await this.rest.performRequest(Endpoints.specificHacker(this.username), {
       method: 'PUT',
       body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (refetch) {

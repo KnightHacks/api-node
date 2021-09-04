@@ -69,6 +69,9 @@ export class GroupManager extends BaseManager {
   async update(groupName: string, data: GroupData): Promise<void> {
     await this.rest.performRequest(Endpoints.specificGroup(groupName), {
       method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data),
     });
   }

@@ -1,5 +1,6 @@
 export * from './controllers/category';
 export * from './controllers/event';
+export * from './controllers/hacker';
 export * from './API';
 export * from './models/category';
 export * from './models/event';

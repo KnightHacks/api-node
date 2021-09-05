@@ -1,19 +1,40 @@
 import { Endpoints } from '../Endpoints';
-import { APISponsor, Sponsor, transformSponsor } from '../models/user';
-import { emptyCollectionHandler } from '../util/api';
+import {
+  APISponsorData,
+  SponsorData,
+  transformAPISponsor,
+  transformSponsor,
+} from '../models/user';
+import { emptyCollectionHandler, entityNotFoundHandler } from '../util/api';
 import { BaseManager } from './base';
 
 export class SponsorManager extends BaseManager {
-  async create(sponsor: Sponsor): Promise<void> {
+  async create(sponsor: Required<SponsorData>): Promise<void> {
+    const transformedData = transformSponsor(sponsor);
+    console.log(transformedData);
     await this.rest.performRequest(Endpoints.createSponsor, {
-      body: JSON.stringify(sponsor),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(transformedData),
     });
   }
 
-  async fetchAll(): Promise<Sponsor[]> {
+  async fetchAll(): Promise<SponsorData[]> {
     const response = (await this.rest
       .performRequest(Endpoints.allSponsors)
-      .catch(emptyCollectionHandler)) as APISponsor[];
-    return response.map(transformSponsor);
+      .catch(emptyCollectionHandler)) as { sponsors: APISponsorData[] };
+    return response.sponsors.map(transformAPISponsor);
+  }
+
+  async get(sponsorName: string): Promise<SponsorData | undefined> {
+    const response = (await this.rest
+      .performRequest(Endpoints.specificSponsor(sponsorName))
+      .catch(entityNotFoundHandler)) as { Sponsor: [APISponsorData] };
+
+    if (!response || !response.Sponsor) {
+      return;
+    }
+
+    return transformAPISponsor(response.Sponsor[0]);
   }
 }

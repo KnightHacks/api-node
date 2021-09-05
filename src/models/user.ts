@@ -58,7 +58,7 @@ function toUnixTime(time?: number) {
 
 export type APIHacker = Omit<APIHackerPayload, 'password'>;
 
-export interface APISponsor {
+export interface APISponsorData {
   email: string;
   logo: string;
   password?: string;
@@ -67,10 +67,14 @@ export interface APISponsor {
   username: string;
 }
 
-export interface Sponsor
-  extends Omit<APISponsor, 'sponsor_name' | 'subscription_tier'> {
+export interface SponsorData
+  extends Omit<APISponsorData, 'sponsor_name' | 'subscription_tier'> {
   sponsorName: string;
   subscriptionTier: string;
+}
+
+export function transformSponsor(data: SponsorData): APISponsorData {
+  return humps.decamelizeKeys(data) as APISponsorData;
 }
 
 export function transformHacker(
@@ -97,6 +101,6 @@ export function transformAPIHacker(data: APIHacker): HackerData {
   return tranformedKeys;
 }
 
-export function transformSponsor(sponsor: APISponsor): Sponsor {
-  return humps.camelizeKeys(sponsor) as Sponsor;
+export function transformAPISponsor(sponsor: APISponsorData): SponsorData {
+  return humps.camelizeKeys(sponsor) as SponsorData;
 }

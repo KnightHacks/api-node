@@ -1,5 +1,6 @@
 import humps from 'humps';
-import { APISponsor, Sponsor, transformSponsor } from './user';
+import { transformAPISponsor } from '..';
+import { APISponsorData, SponsorData } from './user';
 
 export interface APIClubEvent {
   description: string;
@@ -16,7 +17,7 @@ export interface ClubEvent extends Omit<APIClubEvent, 'start' | 'end'> {
   end: Date;
 }
 
-export interface APIEvent {
+export interface APIEventData {
   attendees_count: number;
   date_time: string;
   end_date_time: string;
@@ -26,14 +27,14 @@ export interface APIEvent {
   image: string;
   link: string;
   loc: string;
-  sponsors: APISponsor[];
+  sponsors: APISponsorData[];
   name: string;
   user: string;
 }
 
-export interface Event
+export interface EventData
   extends Omit<
-    APIEvent,
+    APIEventData,
     | 'attendees_count'
     | 'date_time'
     | 'end_date_time'
@@ -46,7 +47,7 @@ export interface Event
   endDateTime: Date;
   eventStatus: string;
   eventType: string;
-  sponsors: Sponsor[];
+  sponsors: SponsorData[];
 }
 
 export function transformClubEvent(event: APIClubEvent): ClubEvent {
@@ -58,14 +59,14 @@ export function transformClubEvent(event: APIClubEvent): ClubEvent {
   return renamedKeys;
 }
 
-export function transformAPIEvent(event: APIEvent): Event {
-  const renamedKeys = humps.camelizeKeys(event) as Event;
+export function transformAPIEvent(event: APIEventData): EventData {
+  const renamedKeys = humps.camelizeKeys(event) as EventData;
 
   renamedKeys.dateTime = new Date(event.date_time);
   renamedKeys.endDateTime = new Date(event.end_date_time);
-  renamedKeys.sponsors = (renamedKeys.sponsors as unknown as APISponsor[]).map(
-    transformSponsor
-  );
+  renamedKeys.sponsors = (
+    renamedKeys.sponsors as unknown as APISponsorData[]
+  ).map(transformAPISponsor);
 
   return renamedKeys;
 }

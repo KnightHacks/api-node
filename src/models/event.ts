@@ -1,6 +1,4 @@
 import humps from 'humps';
-import { transformAPISponsor } from '..';
-import { APISponsorData, SponsorData } from './user';
 
 export interface APIClubEvent {
   description: string;
@@ -27,7 +25,6 @@ export interface APIEventData {
   image: string;
   link: string;
   loc: string;
-  sponsors: APISponsorData[];
   name: string;
   user: string;
 }
@@ -40,14 +37,12 @@ export interface EventData
     | 'end_date_time'
     | 'event_type'
     | 'event_status'
-    | 'sponsors'
   > {
   attendeesCount: number;
   dateTime: Date;
   endDateTime: Date;
   eventStatus: string;
   eventType: string;
-  sponsors: SponsorData[];
 }
 
 export function transformClubEvent(event: APIClubEvent): ClubEvent {
@@ -64,9 +59,5 @@ export function transformAPIEvent(event: APIEventData): EventData {
 
   renamedKeys.dateTime = new Date(event.date_time);
   renamedKeys.endDateTime = new Date(event.end_date_time);
-  renamedKeys.sponsors = (
-    renamedKeys.sponsors as unknown as APISponsorData[]
-  ).map(transformAPISponsor);
-
   return renamedKeys;
 }

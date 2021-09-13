@@ -11,6 +11,8 @@ export interface APIHackerPayload {
   };
   email: string;
   ethnicity?: string;
+  isaccepted?: boolean;
+  rsvp_status?: boolean;
   first_name: string;
   last_name: string;
   password: string;
@@ -21,8 +23,9 @@ export interface APIHackerPayload {
     linkedin: string;
   };
   username: string;
-  what_learn?: string;
+  what_learn?: string[];
   why_attend?: string;
+  in_person?: boolean;
 }
 
 export interface HackerData
@@ -36,6 +39,9 @@ export interface HackerData
     | 'what_learn'
     | 'why_attend'
     | 'phone_number'
+    | 'isaccepted'
+    | 'rsvp_status'
+    | 'in_person'
   > {
   canShareInfo?: boolean;
   eduInfo?: {
@@ -46,6 +52,11 @@ export interface HackerData
   firstName: string;
   lastName: string;
   phoneNumber?: string;
+  rsvpStatus?: boolean;
+  isAccepted?: boolean;
+  whatLearn?: string;
+  whyAttend?: string;
+  inPerson?: boolean;
 }
 
 function toUnixTime(time?: number) {
@@ -96,6 +107,10 @@ export function transformAPIHacker(data: APIHacker): HackerData {
     tranformedKeys.eduInfo!.graduationDate = new Date(
       data.edu_info.graduation_date * 1000
     );
+  }
+
+  if (data.isaccepted) {
+    tranformedKeys.isAccepted = data.isaccepted;
   }
 
   return tranformedKeys;

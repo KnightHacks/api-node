@@ -6,7 +6,7 @@ export const ModelBases = {
 };
 
 export const Endpoints = {
-  login: '/auth/login',
+  login: '/auth/login/',
 
   categories: '/categories/',
   allCategories: '/categories/get_all_categories',

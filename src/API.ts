@@ -5,8 +5,15 @@ import { EventManager } from './controllers/event';
 import { HackerManager } from './controllers/hacker';
 import { SponsorManager } from './controllers/sponsor';
 import { RestManager } from './RestManager';
+import { setupSentry, SentryConfig } from './sentry';
 
 export class API {
+  constructor(sentryConfig?: SentryConfig) {
+    if (sentryConfig) {
+      setupSentry(sentryConfig);
+    }
+  }
+
   private readonly rest: RestManager = new RestManager();
   public readonly categories = new CategoryManager(this, this.rest);
   public readonly events = new EventManager(this.rest);

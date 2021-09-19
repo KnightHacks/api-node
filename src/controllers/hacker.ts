@@ -16,7 +16,7 @@ export class Hacker implements Partial<HackerData> {
   eduInfo?:
     | {
         college?: string | undefined;
-        graduationDate?: Date | undefined;
+        graduationDate?: string | undefined;
         major?: string | undefined;
       }
     | undefined;

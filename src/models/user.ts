@@ -6,7 +6,7 @@ export interface APIHackerPayload {
   can_share_info: boolean;
   edu_info?: {
     college?: string;
-    graduation_date?: number;
+    graduation_date?: string;
     major?: string;
   };
   email: string;
@@ -46,7 +46,7 @@ export interface HackerData
   canShareInfo?: boolean;
   eduInfo?: {
     college?: string;
-    graduationDate?: Date;
+    graduationDate?: string;
     major?: string;
   };
   firstName: string;
@@ -57,14 +57,6 @@ export interface HackerData
   whatLearn?: string;
   whyAttend?: string;
   inPerson?: boolean;
-}
-
-function toUnixTime(time?: number) {
-  if (!time) {
-    return undefined;
-  }
-
-  return time / 1000;
 }
 
 export type APIHacker = Omit<APIHackerPayload, 'password'>;
@@ -94,21 +86,11 @@ export function transformHacker(
   const transformedKeys = humps.decamelizeKeys(payload) as APIHackerPayload;
   return {
     ...transformedKeys,
-    edu_info: {
-      ...transformedKeys.edu_info,
-      graduation_date: toUnixTime(payload.eduInfo?.graduationDate?.getTime()),
-    },
   };
 }
 
 export function transformAPIHacker(data: APIHacker): HackerData {
   const tranformedKeys = humps.camelizeKeys(data) as HackerData;
-  if (data.edu_info?.graduation_date) {
-    tranformedKeys.eduInfo!.graduationDate = new Date(
-      data.edu_info.graduation_date * 1000
-    );
-  }
-
   if (data.isaccepted) {
     tranformedKeys.isAccepted = data.isaccepted;
   }

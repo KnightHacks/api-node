@@ -5,14 +5,22 @@ export interface APIClubEvent {
   end: string;
   location: string;
   name: string;
-  presenter: string;
+  presenter: {
+    image: string;
+    name: string;
+  };
   start: string;
   tags: string[];
 }
 
-export interface ClubEvent extends Omit<APIClubEvent, 'start' | 'end'> {
+export interface ClubEvent
+  extends Omit<APIClubEvent, 'start' | 'end' | 'presenter'> {
   start: Date;
   end: Date;
+  presenter: {
+    image: Buffer;
+    name: string;
+  };
 }
 
 export interface APIEventData {
@@ -50,6 +58,10 @@ export function transformClubEvent(event: APIClubEvent): ClubEvent {
 
   renamedKeys.start = new Date(event.start);
   renamedKeys.end = new Date(event.end);
+
+  if (renamedKeys.presenter.image) {
+    renamedKeys.presenter.image = Buffer.from(renamedKeys.presenter.image);
+  }
 
   return renamedKeys;
 }

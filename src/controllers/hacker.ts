@@ -189,13 +189,16 @@ export class HackerManager extends BaseManager {
    * Gets all of the registered hackers.
    * @returns All of the registered hackers.
    */
-  async fetchAll(): Promise<HackerData[]> {
+  async fetchAll(): Promise<Hacker[]> {
     const response = (await this.rest
       .performRequest(Endpoints.allHackers)
       .catch(emptyCollectionHandler)) as {
       hackers: APIHackerPayload[];
     };
 
-    return response.hackers.map(transformAPIHacker);
+    return response.hackers.map((hacker) => {
+      const data = transformAPIHacker(hacker);
+      return new Hacker(this.rest, data);
+    });
   }
 }

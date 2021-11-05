@@ -64,10 +64,10 @@ export type APIHacker = Omit<APIHackerPayload, 'password'>;
 export interface APISponsorData {
   email: string;
   logo: string;
-  password?: string;
+  socials?: Record<string, string>;
   sponsor_name: string;
   subscription_tier: string;
-  username: string;
+  description: string;
 }
 
 export interface SponsorData

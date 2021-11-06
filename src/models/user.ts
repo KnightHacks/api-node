@@ -68,6 +68,7 @@ export interface APISponsorData {
   sponsor_name: string;
   subscription_tier: string;
   description: string;
+  sponsor_website: string;
 }
 
 export interface SponsorData
